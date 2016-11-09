@@ -1,0 +1,8 @@
+name: Lobby
+version: 1.0
+description: Lobby
+author: abraham-null
+authors: [abraham-null] 
+website: http://ackeron.com
+main: abraham.Lobby
+depend: [MySQLAPI]
