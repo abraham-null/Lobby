@@ -16,6 +16,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Tony/Desktop/OVH Server/Minecraft/server/lobby/plugins/MySQLAPI-0.0.1-SNAPSHOT-shaded.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tony/Desktop/OVH Server/Minecraft/server/lobby/plugins/BungeeTokens.jar"/>
+	<classpathentry kind="src" path="/BungeeTokens"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

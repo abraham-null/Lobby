@@ -5,4 +5,8 @@ author: abraham-null
 authors: [abraham-null] 
 website: http://ackeron.com
 main: abraham.Lobby
-depend: [MySQLAPI]
+depend: [BungeeTokens]
+commands:
+  test:
+    description: test
+    aliases: [tests]  
