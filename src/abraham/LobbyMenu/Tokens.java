@@ -1,6 +1,7 @@
-package LobbyMenu;
+package abraham.LobbyMenu;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import abraham.Lobby;
 
@@ -15,6 +16,10 @@ public class Tokens extends MainMenu{
 		this.lore.add("ccc");
 		this.lore.add("ddd");
 		this.lore.add("");
+	}
+	
+	public void action(Player p){
+		Lobby.plugin.tokenApi.showMenu(p);
 	}
 
 }

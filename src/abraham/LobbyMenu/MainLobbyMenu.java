@@ -1,7 +1,8 @@
-package LobbyMenu;
+package abraham.LobbyMenu;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -12,33 +13,43 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import abraham.Lobby;
 
-public class MainLobbyMenu implements Listener{
+public class MainLobbyMenu implements Listener {
 
-	private Lobby plugin;
-	
 	public MainLobbyMenu(Lobby plugin) {
+
 	}
 
 
-	public void setLobbyItems(Player p){
+
+	public void setLobbyItems(Player p) {
 		ArrayList<String> loreArray = new ArrayList<String>();
 		Inventory inv = p.getInventory();
-		
-		for (int i = 0; i < plugin.menuArray.size(); i++) {
-			MainMenu menu = plugin.menuArray.get(i);
-			
+		Bukkit.getLogger().info(p.getName());
+		inv.clear();
+
+		for (int i = 0; i < Lobby.plugin.menuArray.size(); i++) {
+			MainMenu menu = Lobby.plugin.menuArray.get(i);
+
 			Material mat = menu.getMat();
 			String title = menu.getDisplayTitle();
 			int invPosition = menu.getPosition();
 			loreArray = menu.getLore();
-			
-			p.getInventory().setItem(invPosition,createItem(mat, title, loreArray));
+
+			p.getInventory().setItem(invPosition, createItem(mat, title, loreArray));
 			loreArray.clear();
-			
+
 		}
-		
+
 	}
 	
+	public void go(Player p, String title){
+		for (int i = 0; i < Lobby.plugin.menuArray.size(); i++){
+			if (Lobby.plugin.menuArray.get(i).getDisplayTitle().equals(title)){
+				Lobby.plugin.menuArray.get(i).action(p);
+			}
+		}
+	}
+
 	public static ItemStack createItem(Material mat, String title, ArrayList<String> loreArray) {
 
 		ItemStack item = new ItemStack(mat);

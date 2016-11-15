@@ -1,17 +1,13 @@
-package LobbyMenu;
+package abraham.ServerMenu;
 
 import java.util.ArrayList;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
-public class MainMenu {
+public class ServerMenu {
 	
-	public Material mat;
-    public int position;
-    public String displayTitle;
-    public ArrayList<String> lore = new ArrayList<String>();;
-	    
-	    public Material getMat() {
+	public Material getMat() {
 		return mat;
 	}
 	public void setMat(Material mat) {
@@ -35,6 +31,17 @@ public class MainMenu {
 	public void setLore(ArrayList<String> lore) {
 		this.lore = lore;
 	}
-		
+	public Material mat;
+    public int position;
+    public String displayTitle;
+    public ArrayList<String> lore = new ArrayList<String>();
+	public int playerCount;
+    
+    public void updateCount(){
+	}
+    
+	public void action(Player p){	
+	}
+	
 
 }
