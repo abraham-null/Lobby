@@ -15,6 +15,7 @@ import com.google.common.io.ByteStreams;
 
 import API.TokenAPI;
 import BungeeTokens.BungeeTokens.BungeeTokens;
+import BungeeTokens.BungeeTokens.ConnectionPoolManager;
 import abraham.Listeners.CommandListen;
 import abraham.Listeners.PlayerListen;
 import abraham.LobbyMenu.HidePlayers;
@@ -27,6 +28,7 @@ import abraham.ServerMenu.ServerMainMenu;
 import abraham.ServerMenu.ServerMenu;
 import abraham.ServerMenu.Survival;
 import abraham.ServerMenu.skyblock;
+import abraham.scoreboards.scoreboardClass;
 
 
 
@@ -35,16 +37,18 @@ public class Lobby extends JavaPlugin implements PluginMessageListener{
 
 	public BungeeTokens bungeeTokens = (BungeeTokens) getServer().getPluginManager().getPlugin("BungeeTokens");
 	public TokenAPI tokenApi = new TokenAPI(bungeeTokens);
-	public MySQLAPI mySQLAPI = (MySQLAPI) getServer().getPluginManager().getPlugin("MySQLAPI");
-	public SQLManager sqlManager = new SQLManager(mySQLAPI);
+	//public MySQLAPI mySQLAPI = (MySQLAPI) getServer().getPluginManager().getPlugin("MySQLAPI");
+	//public SQLManager sqlManager = new SQLManager(mySQLAPI);
 	public MainLobbyMenu mainLobbyMenu;
 	public ServerMainMenu serverMainMenu;
+	public scoreboardClass scoreboardClass;
 	public ArrayList<MainMenu> menuArray = new ArrayList<MainMenu>();
 	public ArrayList<ServerMenu> serverArray = new ArrayList<ServerMenu>();
 	public static Lobby plugin;
 	public int survivalPlayerCount = 0;
 	public int skyblockPlayerCount = 0;
 	public int kitpvpPlayerCount = 0;
+	public int allPlayerCount = 0;
 	public String serverNAme = "";
 	public String serverstitle = "SERVERS";
 
@@ -57,12 +61,15 @@ public class Lobby extends JavaPlugin implements PluginMessageListener{
 	@Override
 	public void onEnable() {
 		plugin = this;
+		
+		//pool = new ConnectionPoolManager(this);
 		this.getCommand("test").setExecutor(new CommandListen(this));
 		Bukkit.getServer().getPluginManager().registerEvents(new PlayerListen(this), this);
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
 		mainLobbyMenu =  new MainLobbyMenu(this);
 		serverMainMenu =  new ServerMainMenu();
+		scoreboardClass = new scoreboardClass();
 		
 		updater();
 		
@@ -91,18 +98,21 @@ public class Lobby extends JavaPlugin implements PluginMessageListener{
 			if (serverNAme != null) {
 				// Bukkit.broadcastMessage(serverNAme);
 
-				if (serverNAme.equalsIgnoreCase("Survival")) {
+				if (serverNAme.equalsIgnoreCase("survival")) {
 					survivalPlayerCount = in.readInt();
 				}
 				
-				if (serverNAme.equalsIgnoreCase("SkyBlock")) {
+				if (serverNAme.equalsIgnoreCase("skyBlock")) {
 					skyblockPlayerCount = in.readInt();
 				}
 
-				if (serverNAme.equalsIgnoreCase("Kitpvp")) {
+				if (serverNAme.equalsIgnoreCase("Kit")) {
 					kitpvpPlayerCount = in.readInt();
 				}
 
+				if (serverNAme.equalsIgnoreCase("ALL")) {
+					allPlayerCount = in.readInt();
+				}
 			
 			}
 		}
@@ -123,13 +133,31 @@ public class Lobby extends JavaPlugin implements PluginMessageListener{
 				List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
 
 				if (players.size() > 0) {
-
+		
 					Player p = players.get(0);
-
 					ByteArrayDataOutput out = ByteStreams.newDataOutput();
 					out.writeUTF("PlayerCount");
-					out.writeUTF("Survival");
+					out.writeUTF("survival");
 					p.sendPluginMessage(Lobby.plugin, "BungeeCord", out.toByteArray());
+					
+					ByteArrayDataOutput out2 = ByteStreams.newDataOutput();
+					out2.writeUTF("PlayerCount");
+					out2.writeUTF("kit");
+					p.sendPluginMessage(Lobby.plugin, "BungeeCord", out2.toByteArray());
+					
+					ByteArrayDataOutput out3 = ByteStreams.newDataOutput();
+					out3.writeUTF("PlayerCount");
+					out3.writeUTF("skyblock");
+					p.sendPluginMessage(Lobby.plugin, "BungeeCord", out3.toByteArray());
+					
+					ByteArrayDataOutput out4 = ByteStreams.newDataOutput();
+					out4.writeUTF("PlayerCount");
+					out4.writeUTF("ALL");
+					p.sendPluginMessage(Lobby.plugin, "BungeeCord", out4.toByteArray());
+					
+					for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+						scoreboardClass.setScoreboard(player, allPlayerCount);
+						}
 
 				}
 			}

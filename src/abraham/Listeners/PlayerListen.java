@@ -1,5 +1,7 @@
 package abraham.Listeners;
 
+import javax.persistence.Lob;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -29,6 +31,7 @@ public class PlayerListen implements Listener {
 		
 		p.teleport(new Location(p.getWorld(), 514, 37, 651, (float) -97, (float) 3.5));
 		plugin.mainLobbyMenu.setLobbyItems(p);
+		Lobby.plugin.scoreboardClass.setScoreboard(p, Lobby.plugin.allPlayerCount);
 	}
 	
 	@EventHandler
